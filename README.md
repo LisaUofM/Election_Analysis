@@ -39,5 +39,82 @@ The analysis of the election by county:
    - Denver, with 306,055 votes and 82.8% overall turnout. 
 
 # Election-Audit Summary: 
-This script can easily be adapted for other elections. In fact, the structure of the script can be used with slight modifications to capture different dimensions. 
+This script can easily be run for other elections with similar raw data sets. The below samples of code demonstrate its modularity. There is no specific reference to a county or a candidate, making it very adaptable to other elections. 
 
+## Using lists, dictionaries and variables to collate the data:
+### For Candidate Analysis: 
+``` candidate_options = []
+    county_votes = {} 
+    # for tracking the winning canddiate
+    winning_candidate = ""
+    winning_count = 0
+    winning_percentage = 0
+
+```
+### For County Analysis: 
+``` county_list = []
+    county_votes = {} 
+    # for tracking county and largest turnout
+    largest_county = ""
+    largest_county_count = 0
+    largest_county_percentage = 0
+```
+
+## Using for loops to iternate through the data and retrieve name and vote:
+### For Candidate Analysis
+```
+for candidate_name in candidate_votes:
+
+        # Retrieve vote count and percentage
+        votes = candidate_votes.get(candidate_name)
+        vote_percentage = float(votes) / float(total_votes) * 100
+        candidate_results = (
+            f"{candidate_name}: {vote_percentage:.1f}% ({votes:,})\n")
+
+        # Print each candidate's voter count and percentage to the
+        # terminal.
+        print(candidate_results)
+
+        #  Save the candidate results to our text file.
+        txt_file.write(candidate_results)
+```
+
+### For County Analysis 
+```
+for county_name in county_votes:
+
+        # 6b: Retrieve the county vote count.
+        vote_count = county_votes[county_name]
+
+        # 6c: Calculate the percent of total votes for the county.
+        vote_percentage = float(vote_count) / float(total_votes) * 100
+        county_results = (
+            f"{county_name}: {vote_percentage:.1f}% ({vote_count:,}) \n")
+
+         # 6d: Print the county results to the terminal.
+        print(county_results)
+
+         # 6e: Save the county votes to a text file.
+        txt_file.write(county_results)
+
+```
+
+## Using decision statements to determine the winning candidate and county with the largest turnout. 
+
+### Decision statement used for the candidate analysis
+```
+        if (votes > winning_count) and (vote_percentage > winning_percentage):
+            winning_count = votes
+            winning_candidate = candidate_name
+            winning_percentage = vote_percentage
+            print(candidate_name)
+
+```
+### Decision statement used for the county analysis
+```
+        6f: Write a decision statement to determine the winning county and get its vote count.
+        if (vote_count > winning_count) and (vote_percentage > winning_percentage):
+            winning_count = vote_count
+            winning_county = county_name
+            winning_percentage = vote_percentage
+```
